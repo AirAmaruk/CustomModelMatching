@@ -1,0 +1,55 @@
+﻿<Window x:Name="CustomModelMatching" x:Class="CustomModelMatching.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CustomModelMatching"
+        mc:Ignorable="d"
+        Title="CustomModelMatching" Height="600" Width="800"
+        Closing="Window_Closing">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Content="Select your Community folder:" VerticalAlignment="Center"/>
+            <TextBox x:Name="folderPathTextBox" Grid.Column="1" Margin="5,0" TextChanged="FolderPathTextBox_TextChanged"/>
+        </Grid>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,5">
+            <Button x:Name="BrowseButton" Content="Browse" Margin="5,0" Width="50" Height="30" Click="BrowseButton_Click"/>
+            <Button x:Name="ScanButton" Content="Scan" Margin="5,0" Width="50" Height="30" Click="ScanButton_Click"/>
+            <Button x:Name="CreateVMRButton" Content="Create VMR" Margin="5,0" Width="80" Height="30" Click="CreateVMRButton_Click"/>
+            <Button x:Name="SelectAllButton" Content="Select All" Margin="5,0" Width="70" Height="30" Click="SelectAllButton_Click"/>
+        </StackPanel>
+
+
+        <DataGrid x:Name="aircraftDataGrid" Grid.Row="2" Margin="0,5" AutoGenerateColumns="False" CanUserAddRows="False" PreviewKeyDown="DataGrid_PreviewKeyDown" CellEditEnding="DataGrid_CellEditEnding">
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsEdited}" Value="True">
+                            <Setter Property="Foreground" Value="Red" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
+            <DataGrid.Columns>
+                <DataGridCheckBoxColumn Header="" Binding="{Binding IsSelected}" Width="Auto"/>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" IsReadOnly="True"/>
+                <local:UppercaseDataGridTextColumn Header="ICAO" Binding="{Binding IcaoAirline}" Width="*"/>
+                <local:UppercaseDataGridTextColumn Header="Type of Aircraft" Binding="{Binding TypeDesignator}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <ProgressBar x:Name="scanProgressBar" Grid.Row="3" Margin="0,5" Height="20"/>
+    </Grid>
+</Window>
